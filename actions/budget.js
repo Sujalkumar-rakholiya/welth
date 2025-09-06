@@ -44,6 +44,17 @@ export async function getCurrentBudget(accountId) {
                 },
                 accountId,
             },
+            _sum: { amount: true },
         });
-    } catch (error) { }
+
+        return {
+            budget: budget ? { ...budget, amount: budget._sum.amount.toNumber() } : null,
+            currentExpenses: expenses._sum.amount
+                ? expenses._sum.amount.toNumber()
+                : 0,
+        };
+    } catch (error) {
+        console.error("Error fetching current budget:", error);
+        throw error;
+    }
 }
