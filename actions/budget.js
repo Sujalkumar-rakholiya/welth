@@ -33,5 +33,17 @@ export async function getCurrentBudget(accountId) {
             currentDate.getMonth() + 1,
             0
         );
+
+        const expenses = await db.transaction.aggregate({
+            where: {
+                userId: user.id,
+                type: "EXPENSE",
+                date: {
+                    gte: startOfMonth,
+                    lte: endOfMonth,
+                },
+                accountId,
+            },
+        });
     } catch (error) { }
 }
