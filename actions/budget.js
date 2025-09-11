@@ -49,7 +49,7 @@ export async function getCurrentBudget(accountId) {
         });
 
         return {
-            budget: budget ? { ...budget, amount: budget._sum.amount.toNumber() } : null,
+            budget: budget ? { ...budget, amount: budget.amount.toNumber() } : null,
             currentExpenses: expenses._sum.amount
                 ? expenses._sum.amount.toNumber()
                 : 0,
