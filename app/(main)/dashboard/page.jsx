@@ -1,13 +1,13 @@
 import React from "react";
-import { getUserAccounts } from '@/actions/dashboard';
-// import { getDashboardData } from '@/actions/dashboard';
-import { getCurrentBudget } from '@/actions/budget';
-import { AccountCard } from './_components/account-card';
-import { CreaterAccountDrawer } from '@/components/create-account-drawer';
-import { BudgetProgress } from './_components/budget-progress';
-import { Card, CardContent } from '@/components/ui/card';
-import { Plus } from 'lucide-react';
-// import { DashboardOverview } from './_components/dashboard-overview';
+import { getUserAccounts } from "@/actions/dashboard";
+// import { getDashboardData } from "@/actions/dashboard";
+import { getCurrentBudget } from "@/actions/budget";
+import AccountCard from "./_components/account-card";
+import CreaterAccountDrawer from "@/components/create-account-drawer";
+import BudgetProgress from "./_components/budget-progress";
+import { Card, CardContent } from "@/components/ui/card";
+import { Plus } from "lucide-react";
+// import { DashboardOverview } from "./_components/dashboard-overview";
 
 async function DashboardPage() {
     const accounts = await getUserAccounts();
@@ -22,14 +22,12 @@ async function DashboardPage() {
     console.log(budgetData);
 
     return (
-        <div className="px-5">
+        <div className="space-y-8">
             {/* Budget Progress */}
-            {defaultAccount && (
-                <BudgetProgress
-                    initialBudget={budgetData?.budget}
-                    currentExpenses={budgetData?.currentExpenses || 0}
-                />
-            )}
+            <BudgetProgress
+                initialBudget={budgetData?.budget}
+                currentExpenses={budgetData?.currentExpenses || 0}
+            />
 
             {/* OverView */}
             {/* <DashboardOverview
