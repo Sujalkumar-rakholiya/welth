@@ -16,7 +16,21 @@ const ReceiptScanner = ({ onScanComplete }) => {
         data: scannedData,
     } = useFetch(scanReceipt);
 
-    const handleReceiptScan = () => { };
+    const handleReceiptScan = async (file) => {
+        if (file.size > 5 * 1024 * 1024) {
+            toast.error("file size should be less than 5MB");
+            return;
+        }
+
+        await scanReceiptFn(file);
+    };
+
+    useEffect(() => {
+        if (scannedData && !scanReceiptLoading) {
+            onScanComplete(scannedData);
+            toast.success("Receipt scanned successfully");
+        }
+    }, [scanReceiptLoading, scannedData]);
 
     return (
         <div>
@@ -31,12 +45,20 @@ const ReceiptScanner = ({ onScanComplete }) => {
                     if (file) handleReceiptScan(file);
                 }}
             />
-            <Button>
+            <Button
+                type="button"
+                variant="outline"
+                className="w-full h-10 bg-gradient-to-br from-orange-500 via-pink-500 to-purple-500 animate-gradient hover:opacity-90 transition-opacity text-white hover:text-white"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={scanReceiptLoading}
+            >
                 {scanReceiptLoading ? (
-                    <></>
+                    <>
+                        <Loader2 className="mr-2 animate-spin" />
+                        <span>Scanning Receipt...</span>
+                    </>
                 ) : (
                     <>
-                        {""}
                         <Camera className="mr-2" />
                         <span>Scan Receipt with AI</span>
                     </>

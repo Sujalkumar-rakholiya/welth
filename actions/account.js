@@ -99,7 +99,7 @@ export async function bulkDeleteTransactions(transactionIDs) {
         }
 
         // Get transactions to calculate balance changes
-        const transaction = await db.transaction.findMany({
+        const transactions = await db.transaction.findMany({
             where: {
                 id: { in: transactionIDs },
                 userId: user.id,
@@ -119,7 +119,7 @@ export async function bulkDeleteTransactions(transactionIDs) {
             // Delete transactions
             await tx.transaction.deleteMany({
                 where: {
-                    id: { in: transactionIds },
+                    id: { in: transactionIDs },
                     userId: user.id,
                 },
             });
