@@ -158,7 +158,6 @@ export async function scanReceipt(file) {
 
         const response = await result.response;
         const text = response.text();
-
         console.log("Gemini raw response:", text);
         const cleanedText = text
             .replace(/```(?:json)?\n?/g, "")

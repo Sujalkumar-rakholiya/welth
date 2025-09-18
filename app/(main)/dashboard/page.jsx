@@ -1,13 +1,12 @@
-import React from "react";
-import { getUserAccounts } from "@/actions/dashboard";
-// import { getDashboardData } from "@/actions/dashboard";
+import React, { Suspense } from "react";
+import { getDashboardData, getUserAccounts } from "@/actions/dashboard";
 import { getCurrentBudget } from "@/actions/budget";
 import AccountCard from "./_components/account-card";
 import CreaterAccountDrawer from "@/components/create-account-drawer";
 import BudgetProgress from "./_components/budget-progress";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus } from "lucide-react";
-// import { DashboardOverview } from "./_components/dashboard-overview";
+import DashboardOverview from "./_components/transaction-overview";
 
 async function DashboardPage() {
     const accounts = await getUserAccounts();
@@ -19,21 +18,25 @@ async function DashboardPage() {
         budgetData = await getCurrentBudget(defaultAccount.id);
     }
 
-    console.log(budgetData);
+    const transactions = await getDashboardData();
 
     return (
         <div className="space-y-8">
             {/* Budget Progress */}
-            <BudgetProgress
-                initialBudget={budgetData?.budget}
-                currentExpenses={budgetData?.currentExpenses || 0}
-            />
+            {defaultAccount && (
+                <BudgetProgress
+                    initialBudget={budgetData?.budget}
+                    currentExpenses={budgetData?.currentExpenses || 0}
+                />
+            )}
 
             {/* OverView */}
-            {/* <DashboardOverview
-                accounts={accounts}
-                transactions={transactions || []}
-            /> */}
+            <Suspense fallback={"Loading Overview..."}>
+                <DashboardOverview
+                    accounts={accounts}
+                    transactions={transactions || []}
+                />
+            </Suspense>
 
             {/* Accounts Grid */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
