@@ -24,7 +24,7 @@ const AddTransactionForm = ({
     accounts,
     categories,
     editMode = true,
-    initialData = transaction,
+    initialData = null,
 }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -193,7 +193,7 @@ const AddTransactionForm = ({
                 <label className="text-sm font-medium">Category</label>
                 <Select
                     onValueChange={(value) => setValue("category", value)}
-                    defaultValues={getValues("category")}
+                    defaultValue={getValues("category")}
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select category" />
@@ -218,7 +218,10 @@ const AddTransactionForm = ({
                     <PopoverTrigger asChild>
                         <Button
                             variant="outline"
-                            className="w-full pl-3 text-left font-normal"
+                            className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !date && "text-muted-foreground"
+                            )}
                         >
                             {date ? format(date, "PPP") : <span>Pick a date</span>}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
